@@ -1,0 +1,35 @@
+<html>
+
+<head>
+    <title>Lucca Vicenzo</title>
+</head>
+
+<body>
+
+    <form method="POST" action="/upload/video" enctype="multipart/form-data">
+        <div>
+            <label>Video:</label>
+            <input type="file" name="file" accept="video/*" capture="user" id="recorder">
+        </div>
+        <div>
+            <input type="submit" name="btn_upload" value="Upload" />
+        </div>
+    </form>
+
+    <video id="player" controls></video>
+
+    <script>
+        var recorder = document.getElementById('recorder');
+        var player = document.getElementById('player');
+
+        recorder.addEventListener('change', function (e) {
+            var file = e.target.files[0];
+            // Do something with the video file.
+            player.src = URL.createObjectURL(file);
+        });
+    </script>
+
+
+</body>
+
+</html>
