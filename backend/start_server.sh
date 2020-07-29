@@ -1,2 +1,3 @@
 #! /bin/sh
-nginx -s reload -c nginx.conf -p $(pwd)
+nginx -s quit
+nginx -c nginx.conf -p $(pwd)
