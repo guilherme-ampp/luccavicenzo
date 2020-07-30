@@ -1,22 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Title, Form } from './style';
 
 // declaring the function as a const we can type the object more easily
 // React.FC = React.FunctionComponent
 // Classes were the old way of creating component in React
 const ShareVideo: React.FC = () => {
-  const recorder = document.getElementById('recorder') as HTMLInputElement;
-  const player = document.getElementById('player') as HTMLVideoElement;
+  const [video, setVideo] = useState('');
 
-  if (recorder) {
-    recorder.addEventListener('change', (event: Event) => {
-      if (!event?.target) return;
-      const inputElement: HTMLInputElement = event?.target as HTMLInputElement;
-      if (!inputElement.files) return;
-      const file = inputElement.files[0];
-      // Do something with the video file.
-      player.src = URL.createObjectURL(file);
-    });
+  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>): void {
+    if (!event.target.files) return;
+    const file = event.target.files[0];
+    // Do something with the video file.
+    setVideo(URL.createObjectURL(file));
   }
 
   return (
@@ -31,6 +26,7 @@ const ShareVideo: React.FC = () => {
             accept="video/*"
             capture="user"
             id="recorder"
+            onChange={handleInputChange}
           />
         </div>
         <div>
@@ -38,7 +34,7 @@ const ShareVideo: React.FC = () => {
         </div>
       </Form>
 
-      <video id="player" controls />
+      <video id="player" src={video} controls />
     </>
   );
 };
