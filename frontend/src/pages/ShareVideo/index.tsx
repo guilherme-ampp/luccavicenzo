@@ -55,7 +55,7 @@ const ShareVideo: React.FC = () => {
 
         {uploadState > 0 && (
           <Progress max="100" color="green" value={uploadState}>
-            ${Math.round(uploadState)}%
+            {Math.round(uploadState)}%
           </Progress>
         )}
       </Form>
