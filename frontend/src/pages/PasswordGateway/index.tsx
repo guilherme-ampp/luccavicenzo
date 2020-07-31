@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState, FormEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Title, Form } from './style';
@@ -36,6 +37,7 @@ const PasswordGateway: React.FC = () => {
 
         <button type="submit">OK</button>
       </Form>
+      {inputError && <span>${inputError}</span>}
     </>
   );
 };
