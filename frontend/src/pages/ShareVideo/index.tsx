@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Title, Form } from './style';
+import { Title, Form, Video } from './style';
 
 // declaring the function as a const we can type the object more easily
 // React.FC = React.FunctionComponent
@@ -16,10 +16,14 @@ const ShareVideo: React.FC = () => {
 
   return (
     <>
-      <Title>Share video</Title>
-      <Form method="POST" action="/upload/video" encType="multipart/form-data">
-        <div>
-          <label>Video:</label>
+      <Title> </Title>
+      <Form
+        method="POST"
+        action="/upload/video"
+        encType="multipart/form-data"
+        id="formUpload"
+      >
+        <>
           <input
             type="file"
             name="file"
@@ -28,13 +32,17 @@ const ShareVideo: React.FC = () => {
             id="recorder"
             onChange={handleInputChange}
           />
-        </div>
-        <div>
-          <input type="submit" name="btn_upload" value="Upload" />
-        </div>
+          {!video && <label htmlFor="recorder">Grave sua mensagem</label>}
+        </>
+
+        {video && (
+          <button type="submit" form="formUpload">
+            Enviar
+          </button>
+        )}
       </Form>
 
-      <video id="player" src={video} controls />
+      {video && <Video id="player" src={video} controls />}
     </>
   );
 };

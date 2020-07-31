@@ -17,7 +17,7 @@ const PasswordGateway: React.FC = () => {
     event.preventDefault();
 
     if (!passphrase) {
-      setInputError('Please enter the correct passphrase');
+      setInputError('Por favor entre a senha correta!');
     } else {
       setInputError('');
       history.push('/share');
@@ -26,12 +26,12 @@ const PasswordGateway: React.FC = () => {
 
   return (
     <>
-      <Title>Gateway</Title>
+      <Title> </Title>
       <Form hasError={!!inputError} onSubmit={handleEnterPassphrase}>
         <input
           value={passphrase}
           onChange={(e) => setPassphrase(e.target.value)}
-          placeholder="Enter the passphrase"
+          placeholder="Entre a senha!"
         />
 
         <button type="submit">OK</button>
