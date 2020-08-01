@@ -16,11 +16,13 @@
     "polished": "^3.6.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-phone-number-input": "^3.0.25",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "reactstrap": "^8.5.1",
     "styled-components": "^5.1.1",
-    "typescript": "~3.7.2"
+    "typescript": "~3.7.2",
+    "yup": "^0.29.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -41,8 +43,10 @@
     ]
   },
   "devDependencies": {
+    "@types/react-phone-number-input": "^3.0.4",
     "@types/reactstrap": "^8.5.0",
     "@types/styled-components": "^5.1.1",
+    "@types/yup": "^0.29.3",
     "@typescript-eslint/eslint-plugin": "^3.7.1",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",

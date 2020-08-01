@@ -1,45 +1,60 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Title, Form } from './style';
+import * as Yup from 'yup';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import { Title, Form, Message } from './style';
+import { useAuth } from '../../hooks/auth';
+import 'react-phone-number-input/style.css';
 
-// declaring the function as a const we can type the object more easily
-// React.FC = React.FunctionComponent
-// Classes were the old way of creating component in React
 const PasswordGateway: React.FC = () => {
-  const [passphrase, setPassphrase] = useState('');
+  const { signIn } = useAuth();
+  const [phonenumber, setPhonenumber] = useState('');
   const [inputError, setInputError] = useState('');
 
   const history = useHistory();
 
-  async function handleEnterPassphrase(
-    event: FormEvent<HTMLFormElement>,
-  ): Promise<void> {
-    event.preventDefault();
-
-    if (!passphrase) {
-      setInputError('Por favor entre a senha correta!');
-    } else {
+  const handleSubmit = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
       setInputError('');
-      history.push('/share');
-    }
-  }
+
+      try {
+        const schema = Yup.object().shape({
+          phonenumber: Yup.string().required('Campo obrigatório'),
+        });
+
+        await schema.validate({ phonenumber }, { abortEarly: false });
+        if (!isValidPhoneNumber(phonenumber)) {
+          setInputError('Por favor, entre um número de telefone válido!');
+        } else {
+          await signIn({ phonenumber });
+          history.push('/share');
+        }
+      } catch (err) {
+        setInputError(`Whoops! Algo errado aconteceu! ${err}`);
+      }
+    },
+    [signIn, phonenumber, inputError],
+  );
 
   return (
     <>
       <Title> Bem-vindo </Title>
-      <Form hasError={!!inputError} onSubmit={handleEnterPassphrase}>
-        <input
-          value={passphrase}
-          onChange={(e) => setPassphrase(e.target.value)}
-          placeholder="Entre a senha!"
-          type="password"
-          maxLength={10}
+      <Form hasError={!!inputError} onSubmit={handleSubmit}>
+        <PhoneInput
+          defaultCountry="BR"
+          countries={['BR', 'US']}
+          addInternationalOption={false}
+          placeholder="Número de telefone"
+          value={phonenumber}
+          onChange={setPhonenumber}
         />
 
         <button type="submit">OK</button>
       </Form>
-      {inputError && <span>${inputError}</span>}
+
+      {inputError && <Message>{inputError}</Message>}
     </>
   );
 };

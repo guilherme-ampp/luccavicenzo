@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
+import Route from './Route';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import PasswordGateway from '../pages/PasswordGateway';
@@ -14,7 +15,7 @@ const Routes: React.FC = () => (
   // so we use <BrowserRouter> around our '<Routes/>' component in the App.tsx file
   <Switch>
     <Route path="/" exact component={PasswordGateway} />
-    <Route path="/share" component={ShareVideo} />
+    <Route path="/share" component={ShareVideo} isPrivate />
   </Switch>
 );
 

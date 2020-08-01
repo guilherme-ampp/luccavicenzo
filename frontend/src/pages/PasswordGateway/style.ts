@@ -19,13 +19,15 @@ export const Form = styled.form<FormProps>`
 
   display: flex;
 
-  input {
+  .PhoneInput input {
     flex: 1;
     height: 70px;
     padding: 0 24px;
-    border: 0;
+    border: solid;
     border-radius: 5px 0px 0px 5px;
     color: #3a3a3a;
+    border-color: #fff;
+    border-right: 0;
 
     ${(props) =>
       props.hasError &&
@@ -39,11 +41,23 @@ export const Form = styled.form<FormProps>`
   }
 
   button {
-    width: 70px;
+    width: 120px;
     height: 70px;
     border-radius: 0px 5px 5px 0px;
     border: 0;
     color: #fff;
     font-weight: bold;
   }
+
+  .PhoneInput {
+    width: 80%;
+    margin-bottom: 10px;
+  }
+`;
+
+export const Message = styled.span`
+  color: #3a3a3a;
+  font: 16px Roboto, sans-serif;
+  margin-left: 45px;
+  margin-top: 10px;
 `;

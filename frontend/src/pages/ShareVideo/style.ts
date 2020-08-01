@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { shade } from 'polished';
 
 export interface AnimationProps {
   videoOut: boolean;
@@ -20,6 +21,15 @@ const fadeOut = keyframes`
   }
   to {
     opacity: 0;
+  }
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 `;
 
@@ -95,7 +105,26 @@ export const Form = styled.div<AnimationProps>`
 
 export const Video = styled.video<AnimationProps>`
   width: 100%;
-  animation: ${(props) => (props.videoOut ? fadeOut : undefined)} 1s ease-out;
+  animation: ${(props) => (props.videoOut ? fadeOut : fadeIn)} 1s ease-in-out;
   visibility: ${(props) => (props.videoOut ? 'hidden' : 'visible')};
-  transition: visibility 1s ease-out;
+  transition: visibility 1s ease-in-out;
+`;
+
+export const ExitButton = styled.button`
+  background-color: coral;
+  max-height: 80px;
+  border-radius: 5px;
+  border: 0;
+  color: #fff;
+  padding: 5px;
+  font-weight: bold;
+
+  &:hover {
+    background: ${shade(0.2, 'coral')};
+  }
+`;
+
+export const Message = styled.span`
+  color: #3a3a3a;
+  font: 16px Roboto, sans-serif;
 `;
