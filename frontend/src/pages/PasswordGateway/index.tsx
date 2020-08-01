@@ -27,7 +27,7 @@ const PasswordGateway: React.FC = () => {
 
   return (
     <>
-      <Title> </Title>
+      {/* <Title> </Title> */}
       <Form hasError={!!inputError} onSubmit={handleEnterPassphrase}>
         <input
           value={passphrase}

@@ -1,6 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-
-import foxBackground from '../assets/cartoon-fox-poses.svg';
+import { shade } from 'polished';
 
 export default createGlobalStyle`
   * {
@@ -11,11 +10,11 @@ export default createGlobalStyle`
   }
 
   body {
-    background: #F0F0F5 url(${foxBackground}) no-repeat 70% top;
+    background: #f9d56e;
     -webkit-font-smoothing: antialiased;
   }
 
-  body, input, button {
+  body, input, button, span {
     font: 16px Roboto, sans-serif;
   }
 
@@ -27,5 +26,11 @@ export default createGlobalStyle`
 
   button {
     cursor: pointer;
+    background-color: #e8505b;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background: ${shade(0.2, '#e8505b')};
+    }
   }
 `;

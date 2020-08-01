@@ -1,9 +1,40 @@
-import styled from 'styled-components';
-import { shade } from 'polished';
+import styled, { keyframes } from 'styled-components';
 
-interface FormProps {
-  hasError: boolean;
+export interface AnimationProps {
+  tailsIn: boolean;
+  videoOut: boolean;
 }
+
+const appearFromTop = keyframes`
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    },
+    to {
+        opacity: 1;
+        transform: translateY(50px);
+    }
+`;
+
+const disappearToTop = keyframes`
+    from {
+        opacity: 1;
+        transform: translateY(0px);
+    },
+    to {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+`;
+
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
 
 // JavaScript's template literals!
 export const Title = styled.h1`
@@ -11,69 +42,73 @@ export const Title = styled.h1`
   color: #3a3a3a;
   max-width: 450px;
   line-height: 56px;
-
   margin-top: 80px;
 `;
 
-export const Form = styled.form`
+export const Form = styled.div<AnimationProps>`
   margin-top: 40px;
-  max-width: 700px;
+  min-width: 100%;
+  text-align: center;
+  min-height: 130px;
+  /* display: flex; */
+  display: block;
+  align-items: center;
   text-align: center;
 
-  display: flex;
-
   input {
-    flex: 1;
-    /* height: 70px; */
-    padding: 0 24px;
-    border: 0;
-    color: #3a3a3a;
-    border: 2px solid #fff;
-    border-right: 0;
-
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
     overflow: hidden;
     position: absolute;
     z-index: -1;
+  }
 
-    & + label {
-      width: 210px;
-      height: 70px;
-      border-radius: 5px;
-      font-size: 1.25em;
-      font-weight: 700;
-      color: #fff;
-      background: #04d361;
-      display: inline-block;
-      margin: 10px;
-      vertical-align: middle;
-      cursor: pointer; /* "hand" cursor */
-    }
-
-    & + label:hover {
-      background: ${shade(0.2, '#04d361')};
-    }
+  span {
+    width: 100%;
+    color: #fff;
+    font-weight: bold;
+    font-size: medium;
   }
 
   button {
-    width: 210px;
+    min-width: 100%;
     height: 70px;
-    background: #04d361;
     border-radius: 5px;
     border: 0;
     color: #fff;
     font-weight: bold;
-    transition: background-color 0.2s;
-    margin: 10px;
+    margin-bottom: 10px;
+  }
 
-    &:hover {
-      background: ${shade(0.2, '#04d361')};
-    }
+  .progress {
+    width: 100%;
+    height: 40px;
+    font-weight: bold;
+    font-size: medium;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .progress-bar {
+    max-width: 100%;
+    background-color: #14b1ab;
+  }
+
+  .div-progress {
+    display: inline-grid;
+  }
+
+  img {
+    max-height: 100%;
+    animation: ${(props) => (props.tailsIn ? appearFromTop : disappearToTop)} 2s
+      ease-in-out;
   }
 `;
 
-export const Video = styled.video`
-  width: 80%;
+export const Video = styled.video<AnimationProps>`
+  width: 100%;
+  animation: ${(props) => (props.videoOut ? fadeOut : undefined)} 1s ease-out;
+  visibility: ${(props) => (props.videoOut ? 'hidden' : 'visible')};
+  transition: visibility 1s ease-out;
 `;
