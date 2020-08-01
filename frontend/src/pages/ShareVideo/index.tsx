@@ -1,10 +1,11 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState, useRef } from 'react';
 import { Progress } from 'reactstrap';
 import axios from 'axios';
 import { Title, Form, Video, AnimationProps } from './style';
-import tailsFlying from '../../assets/tails_flying.gif';
+import tailFlying from '../../assets/tails_flying.gif';
 
 // declaring the function as a const we can type the object more easily
 // React.FC = React.FunctionComponent
@@ -14,9 +15,10 @@ const ShareVideo: React.FC = () => {
   const [video, setVideo] = useState('');
   const [animationProp, setAnimationProp] = useState<AnimationProps>({
     videoOut: false,
-    tailsIn: true,
+    uploadDone: false,
   });
   const [uploading, setUploading] = useState(false);
+  const [finished, setFinished] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | Blob>('');
   const [uploadState, setUploadState] = useState(0);
 
@@ -30,24 +32,32 @@ const ShareVideo: React.FC = () => {
 
   function handleUploadVideo(): void {
     setUploading(true);
-    setAnimationProp({ videoOut: true, tailsIn: true });
+    setAnimationProp({ videoOut: true, uploadDone: false });
     const data = new FormData();
     data.append('Content-Type', 'multipart/form-data');
     data.append('file', selectedFile);
-    axios.post('/upload/video', data, {
-      onUploadProgress: (progressEvent) => {
-        const value = (progressEvent.loaded / progressEvent.total) * 100;
-        setUploadState(value);
-        if (value >= 100) {
-          setAnimationProp({ videoOut: true, tailsIn: false });
-        }
-      },
-    });
+    axios
+      .post('/upload/video', data, {
+        onUploadProgress: (progressEvent) => {
+          const value = (progressEvent.loaded / progressEvent.total) * 100;
+          setUploadState(value);
+        },
+      })
+      .finally(() => {
+        setFinished(true);
+        setAnimationProp({ videoOut: true, uploadDone: true });
+      });
   }
 
   return (
     <>
-      {/* <Title> </Title> */}
+      <Title>
+        {finished
+          ? 'Pronto!'
+          : uploading
+          ? 'Enviando ...'
+          : 'Envie sua mensagem'}
+      </Title>
       <Form {...animationProp}>
         <input
           type="file"
@@ -64,7 +74,7 @@ const ShareVideo: React.FC = () => {
             type="button"
             onClick={() => fileInputElement?.current?.click()}
           >
-            Grave sua mensagem
+            Gravar
           </button>
         )}
 
@@ -74,15 +84,15 @@ const ShareVideo: React.FC = () => {
           </button>
         )}
 
-        {uploadState > 0 && (
+        {uploading && (
           <>
-            <div className="div-progress">
-              <img src={tailsFlying} alt="Tails!" />
-              {/* <span>Enviando</span> */}
-            </div>
             <Progress max="100" value={uploadState}>
               {Math.round(uploadState)}%
             </Progress>
+            <div className="div-progress">
+              {/* <span>Enviando</span> */}
+              <img src={tailFlying} alt="Tails!" />
+            </div>
           </>
         )}
       </Form>

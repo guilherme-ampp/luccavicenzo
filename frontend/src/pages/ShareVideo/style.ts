@@ -1,29 +1,16 @@
 import styled, { keyframes } from 'styled-components';
 
 export interface AnimationProps {
-  tailsIn: boolean;
   videoOut: boolean;
+  uploadDone: boolean;
 }
 
-const appearFromTop = keyframes`
+const appearFromBottom = keyframes`
     from {
         opacity: 0;
-        transform: translateY(-30px);
     },
     to {
         opacity: 1;
-        transform: translateY(50px);
-    }
-`;
-
-const disappearToTop = keyframes`
-    from {
-        opacity: 1;
-        transform: translateY(0px);
-    },
-    to {
-        opacity: 0;
-        transform: translateY(-50px);
     }
 `;
 
@@ -40,16 +27,16 @@ const fadeOut = keyframes`
 export const Title = styled.h1`
   font-size: 48px;
   color: #3a3a3a;
-  max-width: 450px;
+  max-width: 700px;
   line-height: 56px;
-  margin-top: 80px;
+  margin-top: 50px;
 `;
 
 export const Form = styled.div<AnimationProps>`
   margin-top: 40px;
   min-width: 100%;
   text-align: center;
-  min-height: 130px;
+  min-height: 120px;
   /* display: flex; */
   display: block;
   align-items: center;
@@ -66,7 +53,7 @@ export const Form = styled.div<AnimationProps>`
 
   span {
     width: 100%;
-    color: #fff;
+    color: #3a3a3a;
     font-weight: bold;
     font-size: medium;
   }
@@ -83,7 +70,7 @@ export const Form = styled.div<AnimationProps>`
 
   .progress {
     width: 100%;
-    height: 40px;
+    height: 70px;
     font-weight: bold;
     font-size: medium;
     margin-top: 10px;
@@ -92,7 +79,7 @@ export const Form = styled.div<AnimationProps>`
 
   .progress-bar {
     max-width: 100%;
-    background-color: #14b1ab;
+    background-color: ${(props) => (props.uploadDone ? '#2fcc83' : '#14b1ab')};
   }
 
   .div-progress {
@@ -101,8 +88,8 @@ export const Form = styled.div<AnimationProps>`
 
   img {
     max-height: 100%;
-    animation: ${(props) => (props.tailsIn ? appearFromTop : disappearToTop)} 2s
-      ease-in-out;
+    animation: ${appearFromBottom} 1s ease-in-out;
+    position: absolute;
   }
 `;
 

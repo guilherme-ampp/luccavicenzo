@@ -27,12 +27,14 @@ const PasswordGateway: React.FC = () => {
 
   return (
     <>
-      {/* <Title> </Title> */}
+      <Title> Bem-vindo </Title>
       <Form hasError={!!inputError} onSubmit={handleEnterPassphrase}>
         <input
           value={passphrase}
           onChange={(e) => setPassphrase(e.target.value)}
           placeholder="Entre a senha!"
+          type="password"
+          maxLength={10}
         />
 
         <button type="submit">OK</button>
