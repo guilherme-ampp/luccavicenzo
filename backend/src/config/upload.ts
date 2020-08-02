@@ -18,7 +18,7 @@ export default {
     filename(request, file, callback) {
       const {phonenumber} = request.body;
       const fileHash = crypto.randomBytes(10).toString('hex');
-      const fileName = `${phonenumber}:${fileHash}-${file.originalname}`;
+      const fileName = `${phonenumber}-${fileHash}-${file.originalname}`;
       return callback(null, fileName);
     },
   }),

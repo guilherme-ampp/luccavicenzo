@@ -35,7 +35,7 @@ const PasswordGateway: React.FC = () => {
         setInputError(`Whoops! Algo errado aconteceu! ${err}`);
       }
     },
-    [signIn, phonenumber, inputError],
+    [signIn, phonenumber, history],
   );
 
   return (

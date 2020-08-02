@@ -42,13 +42,15 @@ const ShareVideo: React.FC = () => {
   }
 
   function handleUploadVideo(): void {
+    setError(false);
     setUploading(true);
+    setFinished(false);
     setFailureMessage('');
     setAnimationProp({ videoOut: true, uploadDone: false });
     const data = new FormData();
     data.append('Content-Type', 'multipart/form-data');
-    data.append('file', selectedFile);
     data.append('phonenumber', phonenumber);
+    data.append('file', selectedFile);
     api
       .post('/upload/video', data, {
         onUploadProgress: (progressEvent) => {
@@ -58,6 +60,7 @@ const ShareVideo: React.FC = () => {
       })
       .catch((err) => {
         setError(true);
+        setFinished(false);
         setUploading(false);
         setAnimationProp({ videoOut: false, uploadDone: false });
         setFailureMessage(`${err}`);
@@ -71,12 +74,14 @@ const ShareVideo: React.FC = () => {
   return (
     <>
       <Title>
-        {error
-          ? 'Whoops! Algo deu errado!'
-          : finished
+        {finished
           ? 'Pronto!'
+          : error
+          ? 'Whoops! Algo deu errado!'
           : uploading
-          ? 'Enviando ...'
+          ? uploadState > 99
+            ? 'Quase lá!'
+            : 'Enviando ...'
           : 'Envie sua mensagem'}
       </Title>
       <Message>
