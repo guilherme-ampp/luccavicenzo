@@ -13,6 +13,15 @@ echo "
 cd backend/
 echo "
 
+======= Clean up"
+rm -rf node_modules/
+rm -rf yarn.lock
+echo "
+
+======= Reinstall"
+yarn
+echo "
+
 ======= Start NGINX"
 echo "
 
@@ -25,6 +34,18 @@ echo "
 
 ======= FRONTEND ======="
 cd frontend/
+echo "
+
+======= Resinstall"
+rm -rf build
+rm -rf node_modules/
+rm -rf yarn.lock
+yarn
+
+echo "
+
+======= Generate prod build"
+yarn build
 yarn add global serve
 echo "
 
