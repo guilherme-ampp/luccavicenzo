@@ -32,7 +32,7 @@ const PasswordGateway: React.FC = () => {
           history.push('/share');
         }
       } catch (err) {
-        setInputError(`Whoops! Algo errado aconteceu! ${err}`);
+        setInputError(`Whoops! ${err}`);
       }
     },
     [signIn, phonenumber, history],
@@ -44,7 +44,7 @@ const PasswordGateway: React.FC = () => {
       <Form hasError={!!inputError} onSubmit={handleSubmit}>
         <PhoneInput
           defaultCountry="BR"
-          countries={['BR', 'US']}
+          countries={['BR', 'US', 'DK']}
           addInternationalOption={false}
           placeholder="Número de telefone"
           value={phonenumber}

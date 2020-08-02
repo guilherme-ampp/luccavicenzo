@@ -41,7 +41,7 @@ const ShareVideo: React.FC = () => {
     setSelectedFile(file);
   }
 
-  function handleUploadVideo(): void {
+  async function handleUploadVideo(): Promise<void> {
     setError(false);
     setUploading(true);
     setFinished(false);
@@ -51,7 +51,7 @@ const ShareVideo: React.FC = () => {
     data.append('Content-Type', 'multipart/form-data');
     data.append('phonenumber', phonenumber);
     data.append('file', selectedFile);
-    api
+    await api
       .post('/upload/video', data, {
         onUploadProgress: (progressEvent) => {
           const value = (progressEvent.loaded / progressEvent.total) * 100;
@@ -62,7 +62,8 @@ const ShareVideo: React.FC = () => {
         setError(true);
         setFinished(false);
         setUploading(false);
-        setAnimationProp({ videoOut: false, uploadDone: false });
+        setUploadState(0);
+        setAnimationProp({ videoOut: false, uploadDone: true });
         setFailureMessage(`${err}`);
       })
       .then(() => {
@@ -74,10 +75,10 @@ const ShareVideo: React.FC = () => {
   return (
     <>
       <Title>
-        {finished
-          ? 'Pronto!'
-          : error
+        {error
           ? 'Whoops! Algo deu errado!'
+          : finished
+          ? 'Pronto!'
           : uploading
           ? uploadState > 99
             ? 'Quase lá!'
@@ -106,13 +107,13 @@ const ShareVideo: React.FC = () => {
             type="button"
             onClick={() => fileInputElement?.current?.click()}
           >
-            Gravar
+            Abrir camera
           </button>
         )}
 
         {video && !uploading && (
           <button type="button" onClick={handleUploadVideo}>
-            Enviar
+            {error ? 'Tentar novamente' : 'Enviar'}
           </button>
         )}
 
