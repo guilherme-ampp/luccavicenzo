@@ -22,12 +22,13 @@ const ShareVideo: React.FC = () => {
   const fileInputElement = useRef<HTMLInputElement>(null);
   const [video, setVideo] = useState('');
   const [failureMessage, setFailureMessage] = useState('');
+  const [finished, setFinished] = useState(false);
   const [animationProp, setAnimationProp] = useState<AnimationProps>({
     videoOut: false,
     uploadDone: false,
+    finished: false,
   });
   const [uploading, setUploading] = useState(false);
-  const [finished, setFinished] = useState(false);
   const [error, setError] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | Blob>('');
   const [uploadState, setUploadState] = useState(0);
@@ -46,7 +47,7 @@ const ShareVideo: React.FC = () => {
     setUploading(true);
     setFinished(false);
     setFailureMessage('');
-    setAnimationProp({ videoOut: true, uploadDone: false });
+    setAnimationProp({ videoOut: true, uploadDone: false, finished: false });
     const data = new FormData();
     data.append('Content-Type', 'multipart/form-data');
     data.append('phonenumber', phonenumber);
@@ -63,12 +64,12 @@ const ShareVideo: React.FC = () => {
         setFinished(false);
         setUploading(false);
         setUploadState(0);
-        setAnimationProp({ videoOut: false, uploadDone: true });
+        setAnimationProp({ videoOut: false, uploadDone: true, finished: true });
         setFailureMessage(`${err}`);
       })
       .then(() => {
         setFinished(true);
-        setAnimationProp({ videoOut: true, uploadDone: true });
+        setAnimationProp({ videoOut: true, uploadDone: true, finished: true });
       });
   }
 
@@ -86,11 +87,21 @@ const ShareVideo: React.FC = () => {
           : 'Envie sua mensagem'}
       </Title>
       <Message>
-        {finished ? 'Enviando' : 'Enviado'} de: {phonenumber} {failureMessage}
+        {finished ? 'Enviado' : 'Enviando'} de: {phonenumber}
       </Message>
+      <Message>{failureMessage}</Message>
       <ExitButton type="button" onClick={signOut}>
         Sair
       </ExitButton>
+      <Message>
+        <br />
+        <br />
+        1. Use o botão para <b>abrir a câmera</b> <br />
+        2. Grave um vídeo na <b>horizontal</b> <br />
+        3. <b>Confirme a gravação</b> e veja o vídeo aparecer abaixo <br />
+        4. Se estiver tudo certo, clique em <b>Enviar</b> <br />
+      </Message>
+
       <Form {...animationProp}>
         <input
           type="file"

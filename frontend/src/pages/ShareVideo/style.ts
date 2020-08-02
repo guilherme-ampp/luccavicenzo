@@ -4,15 +4,16 @@ import { shade } from 'polished';
 export interface AnimationProps {
   videoOut: boolean;
   uploadDone: boolean;
+  finished: boolean;
 }
 
-const appearFromBottom = keyframes`
-    from {
-        opacity: 0;
-    },
-    to {
-        opacity: 1;
-    }
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 `;
 
 const fadeOut = keyframes`
@@ -21,15 +22,6 @@ const fadeOut = keyframes`
   }
   to {
     opacity: 0;
-  }
-`;
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 `;
 
@@ -98,7 +90,7 @@ export const Form = styled.div<AnimationProps>`
 
   img {
     max-height: 100%;
-    animation: ${appearFromBottom} 1s ease-in-out;
+    animation: ${fadeIn} 1s ease-in-out;
     position: absolute;
   }
 `;
@@ -108,6 +100,7 @@ export const Video = styled.video<AnimationProps>`
   animation: ${(props) => (props.videoOut ? fadeOut : fadeIn)} 1s ease-in-out;
   visibility: ${(props) => (props.videoOut ? 'hidden' : 'visible')};
   transition: visibility 1s ease-in-out;
+  display: ${(props) => (props.finished ? 'none' : 'block')};
 `;
 
 export const ExitButton = styled.button`
@@ -126,5 +119,6 @@ export const ExitButton = styled.button`
 
 export const Message = styled.span`
   color: #3a3a3a;
-  font: 16px Roboto, sans-serif;
+  font: 18px Roboto, sans-serif;
+  margin-right: 7px;
 `;
